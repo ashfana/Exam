@@ -1,0 +1,272 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LAMP LAB | Part 2 PHP Practicals</title><style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#0b1020;color:#edf3ff;font:15px/1.6 system-ui,Arial}
+header{background:linear-gradient(135deg,#101b35,#111629);border-bottom:1px solid #26334d;padding:30px 16px}.wrap{max-width:920px;margin:auto}
+.brand,small{color:#72a7ff;font-weight:800;letter-spacing:.14em;font-size:11px}h1{font-size:clamp(28px,6vw,42px);margin:10px 0}header p{color:#9aa8c1;margin:0}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}nav a{color:#c7d9ff;text-decoration:none;border:1px solid #26334d;padding:6px 10px;border-radius:8px;font-size:13px}
+main{padding:22px 16px 45px}.note{background:#17243b;border-left:3px solid #8ce0b0;padding:12px;border-radius:7px;margin-bottom:18px}
+.program{background:#121a2d;border:1px solid #26334d;border-radius:14px;padding:19px;margin-bottom:18px;overflow:hidden}h2{font-size:21px;margin:5px 0 16px}
+.filehead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:16px 0 7px;font-size:13px;color:#c9d6ec}
+button{background:#20395f;border:1px solid #41689e;color:#fff;border-radius:7px;padding:7px 11px;cursor:pointer;font-weight:650}
+pre{background:#080d18;border:1px solid #202c42;border-radius:9px;padding:13px;overflow:auto;max-height:560px;margin:0}code{font:12px/1.55 ui-monospace,Consolas,monospace;color:#d9e5f8}
+footer{text-align:center;color:#9aa8c1;border-top:1px solid #26334d;padding:22px;font-size:12px}@media(max-width:520px){.program{padding:14px}code{font-size:11px}}
+</style></head><body>
+<header><div class="wrap"><div class="brand">BCA / PHP PRACTICALS</div><h1>PHP Practical Programs</h1><p>Part 2 · Questions 6–10 · Source codes</p><nav><a href="#p6">Program 06</a><a href="#p7">Program 07</a><a href="#p8">Program 08</a><a href="#p9">Program 09</a><a href="#p10">Program 10</a></nav></div></header>
+<main class="wrap"><div class="note"><b>Note:</b> This page displays code for reference. GitHub Pages cannot execute PHP. Run PHP programs using XAMPP. Program 6 needs an <code>upload</code> folder. Program 10 needs the MySQL database and table set up.</div><article class="program" id="p6"><small>PROGRAM 06</small><h2>Image Upload and Details</h2><div class="filehead"><span>Program 6.php</span><button class="copy">Copy Code</button></div><pre><code>&lt;html&gt;
+&lt;body&gt;
+&lt;h2&gt;Image Upload and Details&lt;/h2&gt;
+&lt;form method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+Select Image:
+&lt;input type=&quot;file&quot; name=&quot;image&quot; required&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Upload&quot;&gt;
+&lt;/form&gt;
+&lt;?php
+if (isset($_POST[&quot;submit&quot;])) {
+    $file = $_FILES[&quot;image&quot;];
+    $fileName = $file[&quot;name&quot;];
+    $fileTmp = $file[&quot;tmp_name&quot;];
+    $fileSize = $file[&quot;size&quot;];
+    $imageInfo = getimagesize($fileTmp);
+    if ($imageInfo !== false) {
+        move_uploaded_file($fileTmp, &quot;upload/&quot; . $fileName);
+        echo &quot;&lt;h3&gt;Image Details&lt;/h3&gt;&quot;;
+        echo &quot;File Name: &quot; . $fileName . &quot;&lt;br&gt;&quot;;
+        echo &quot;File Size: &quot; . $fileSize . &quot; bytes&lt;br&gt;&quot;;
+        echo &quot;Width: &quot; . $imageInfo[0] . &quot; px&lt;br&gt;&quot;;
+        echo &quot;Height: &quot; . $imageInfo[1] . &quot; px&lt;br&gt;&quot;;
+        echo &quot;&lt;br&gt;&lt;img src=&#x27;upload/$fileName&#x27; width=&#x27;200&#x27;&gt;&quot;;
+    } else {
+        echo &quot;&lt;h3 style=&#x27;color:red&#x27;&gt;Only image files are allowed!&lt;/h3&gt;&quot;;
+    }
+}
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></article><article class="program" id="p7"><small>PROGRAM 07</small><h2>Palindrome</h2><div class="filehead"><span>Program 7.php</span><button class="copy">Copy Code</button></div><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;form method=&quot;post&quot;&gt;
+    Enter a word:
+    &lt;input type=&quot;text&quot; name=&quot;word&quot;&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Check&quot; name=&quot;submit&quot;&gt;
+&lt;/form&gt;
+&lt;?php
+if (isset($_POST[&quot;submit&quot;])) {
+    $string = $_POST[&quot;word&quot;];
+    $reverse = &quot;&quot;;
+    $length = strlen($string);
+    for ($i = $length - 1; $i &gt;= 0; $i--) {
+        $reverse .= $string[$i];
+    }
+    if ($string == $reverse) {
+        echo &quot;&lt;h3&gt;$string is a Palindrome&lt;/h3&gt;&quot;;
+    } else {
+        echo &quot;&lt;h3&gt;$string is NOT a Palindrome&lt;/h3&gt;&quot;;
+    }
+}
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></article><article class="program" id="p8"><small>PROGRAM 08</small><h2>Student Details Form</h2><div class="filehead"><span>Program 8.php</span><button class="copy">Copy Code</button></div><pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;style&gt;
+table {
+    border: 4px solid black;
+    padding: 10px;
+    width: 350px;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=&quot;&quot; method=&quot;POST&quot;&gt;
+&lt;table&gt;
+&lt;tr&gt;
+    &lt;td&gt;Name:&lt;/td&gt;
+    &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;name&quot; required&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;Address:&lt;/td&gt;
+    &lt;td&gt;&lt;textarea name=&quot;addr&quot; cols=&quot;20&quot; rows=&quot;5&quot; required&gt;&lt;/textarea&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;DOB&lt;/td&gt;
+    &lt;td&gt;&lt;input type=&quot;date&quot; name=&quot;dob&quot; required&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;Gender&lt;/td&gt;
+    &lt;td&gt;
+        &lt;input type=&quot;radio&quot; name=&quot;gen&quot; value=&quot;Male&quot;&gt;Male
+        &lt;input type=&quot;radio&quot; name=&quot;gen&quot; value=&quot;Female&quot;&gt;Female
+    &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;Hobbies&lt;/td&gt;
+    &lt;td&gt;
+        &lt;select name=&quot;hob[]&quot; multiple=&quot;multiple&quot; size=&quot;4&quot; required&gt;
+            &lt;option value=&quot;Coding&quot;&gt;Coding&lt;/option&gt;
+            &lt;option value=&quot;Drawing&quot;&gt;Drawing&lt;/option&gt;
+            &lt;option value=&quot;Travelling&quot;&gt;Travelling&lt;/option&gt;
+            &lt;option value=&quot;Gaming&quot;&gt;Gaming&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+    &lt;td&gt;&lt;input type=&quot;submit&quot; value=&quot;Submit&quot; name=&quot;submit&quot;&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;input type=&quot;reset&quot; value=&quot;Reset&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;h3&gt;&lt;u&gt;After Submitting:&lt;/u&gt;&lt;/h3&gt;
+&lt;table border=&quot;1&quot;&gt;
+&lt;?php
+if (isset($_POST[&quot;submit&quot;])) {
+    $name = $_POST[&quot;name&quot;];
+    $addr = $_POST[&quot;addr&quot;];
+    $dob = $_POST[&quot;dob&quot;];
+    $gen = $_POST[&quot;gen&quot;];
+    $hobbies = $_POST[&quot;hob&quot;];
+    $hobbies_str = implode(&quot;, &quot;, $hobbies);
+    echo &quot;&lt;tr&gt;&lt;td&gt;Name:&lt;/td&gt;&lt;td&gt;$name&lt;/td&gt;&lt;/tr&gt;&quot;;
+    echo &quot;&lt;tr&gt;&lt;td&gt;Address:&lt;/td&gt;&lt;td&gt;$addr&lt;/td&gt;&lt;/tr&gt;&quot;;
+    echo &quot;&lt;tr&gt;&lt;td&gt;DOB:&lt;/td&gt;&lt;td&gt;$dob&lt;/td&gt;&lt;/tr&gt;&quot;;
+    echo &quot;&lt;tr&gt;&lt;td&gt;Gender:&lt;/td&gt;&lt;td&gt;$gen&lt;/td&gt;&lt;/tr&gt;&quot;;
+    echo &quot;&lt;tr&gt;&lt;td&gt;Hobbies:&lt;/td&gt;&lt;td&gt;$hobbies_str&lt;/td&gt;&lt;/tr&gt;&quot;;
+}
+?&gt;
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></article><article class="program" id="p9"><small>PROGRAM 09</small><h2>Create Database, Create Table and Delete Database</h2><div class="filehead"><span>Program 9.php</span><button class="copy">Copy Code</button></div><pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Program 1&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Create Database&quot; name=&quot;createDB&quot;&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Create Table&quot; name=&quot;createTB&quot;&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Delete Database&quot; name=&quot;del&quot;&gt;
+&lt;/form&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;?php
+$servername = &quot;localhost&quot;;
+$username = &quot;root&quot;;
+$pwd = &quot;&quot;;
+$con = new mysqli($servername, $username, $pwd);
+if ($con) {
+    echo &quot;Connection Established&lt;br&gt;&quot;;
+} else {
+    die(&quot;Connection failed: &quot; . $con-&gt;connect_error);
+}
+if (isset($_POST[&quot;createDB&quot;])) {
+    $sql = &quot;create database sand&quot;;
+    if ($con-&gt;query($sql) === TRUE) {
+        echo &quot;Database created successfully&quot;;
+    } else {
+        die(&quot;Error creating database: &quot; . $con-&gt;error);
+    }
+}
+if (isset($_POST[&quot;createTB&quot;])) {
+    $con = new mysqli($servername, $username, $pwd, &quot;sand&quot;);
+    $sql = &quot;create table details(
+        Name varchar(30) not null,
+        Age varchar(30) not null
+    )&quot;;
+    if ($con-&gt;query($sql) === TRUE) {
+        echo &quot;Table &#x27;details&#x27; created successfully&quot;;
+    } else {
+        echo &quot;Error creating table: &quot; . $con-&gt;error;
+    }
+}
+if (isset($_POST[&quot;del&quot;])) {
+    $sql = &quot;drop database sand&quot;;
+    $res = $con-&gt;query($sql);
+    if ($res) {
+        echo &quot;&lt;br&gt;Database is deleted&quot;;
+    } else {
+        die(&quot;Some exception occurred&quot;);
+    }
+}
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></article><article class="program" id="p10"><small>PROGRAM 10</small><h2>Insert and View Records</h2><div class="filehead"><span>connection.php</span><button class="copy">Copy Code</button></div><pre><code>&lt;?php
+$con = mysqli_connect(&quot;localhost&quot;, &quot;root&quot;, &quot;&quot;);
+mysqli_select_db($con, &quot;mydb&quot;);
+if ($con) {
+    echo &quot;Connection is established&lt;br&gt;&quot;;
+} else {
+    die(&quot;Connection not established&lt;br&gt;&quot;.mysqli_error());
+}
+?&gt;</code></pre><div class="filehead"><span>insert.php</span><button class="copy">Copy Code</button></div><pre><code>&lt;html&gt;
+&lt;body&gt;
+&lt;a href=&quot;view.php&quot;&gt;View&lt;/a&gt; &lt;br&gt;&lt;br&gt;
+&lt;?php
+include(&quot;connection.php&quot;);
+?&gt;
+&lt;form method=&quot;post&quot;&gt;
+&lt;table border=&quot;1&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;Enter Name:&lt;/td&gt;
+&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;name&quot; required&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Enter Age:&lt;/td&gt;
+&lt;td&gt;&lt;input type=&quot;number&quot; name=&quot;age&quot; required&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=&quot;2&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;Insert&quot; name=&quot;ins&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;?php
+if (isset($_POST[&#x27;ins&#x27;])) {
+    $name = $_POST[&#x27;name&#x27;];
+    $age = $_POST[&#x27;age&#x27;];
+    $sql = &quot;insert into details values(&#x27;$name&#x27;,&#x27;$age&#x27;)&quot;;
+    $res = mysqli_query($con, $sql);
+    if ($res) {
+        echo &quot;Details is inserted&quot;;
+    } else {
+        echo &quot;Details is not inserted&quot;;
+    }
+}
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><div class="filehead"><span>view.php</span><button class="copy">Copy Code</button></div><pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;View&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;a href=&quot;insert.php&quot;&gt;Insert new record&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+&lt;table border=1&gt;
+&lt;?php
+include(&quot;connection.php&quot;);
+$count = 0;
+$sql = &quot;select * from details order by name desc&quot;;
+$res = mysqli_query($con, $sql);
+echo &quot;&lt;tr&gt;&lt;td&gt;&quot;;
+echo &quot;NAME&quot;;
+echo &quot;&lt;/td&gt;&lt;td&gt;&quot;;
+echo &quot;AGE&quot;;
+echo &quot;&lt;/td&gt;&lt;/tr&gt;&quot;;
+while ($row = mysqli_fetch_assoc($res)) {
+    echo &quot;&lt;tr&gt;&lt;td&gt;&quot;;
+    echo $row[&quot;Name&quot;];
+    echo &quot;&lt;/td&gt;&lt;td&gt;&quot;;
+    echo $row[&quot;Age&quot;];
+    echo &quot;&lt;/td&gt;&lt;/tr&gt;&quot;;
+    $count++;
+}
+if ($count == 0) {
+    echo &quot;No records in the table.&quot;;
+}
+?&gt;
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></article>
+</main><footer>LAMP LAB © 2026 · BUILT FOR LEARNING</footer>
+<script>
+document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",async()=>{
+ const code=b.parentElement.nextElementSibling.innerText;
+ try{await navigator.clipboard.writeText(code);b.textContent="Copied!";setTimeout(()=>b.textContent="Copy Code",1400)}
+ catch(e){b.textContent="Select code to copy";setTimeout(()=>b.textContent="Copy Code",1600)}
+}));
+</script></body></html>
